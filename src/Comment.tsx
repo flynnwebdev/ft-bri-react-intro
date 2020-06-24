@@ -1,17 +1,29 @@
 import React from 'react'
-import faker from 'faker'
 
-export default (): JSX.Element => {
-    return (
+type CommentProps = {
+    author?: string
+    avatar: string
+    date: string
+    text: string
+}
+
+function isDirtyWords(input: string): boolean {
+    return /banana/.test(input)
+}
+
+export default ({ avatar, author="Anonymous", date, text }: CommentProps): JSX.Element => {
+    return !isDirtyWords(text) ? (
         <div className="comment">
             <a href="/" className="avatar">
-                <img alt="avatar" src={faker.image.avatar()} />
+                <img alt="avatar" src={avatar} />
             </a>
             <div className="content">
-                <a href="/" className="author">Mary Smith</a>
-                <p className="date">11/12 6:00pm</p>
-                <p className="text">I think you are really cool!</p>
+                <a href="/" className="author">{author}</a>
+                <p className="date">{date}</p>
+                <p className="text">{text}</p>
             </div>
         </div>
+    ) : (
+        <div>Banned Comment!</div>
     )
 }
